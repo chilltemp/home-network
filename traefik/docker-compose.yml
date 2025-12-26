@@ -73,7 +73,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.birdpi.local`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami.tls=true"
+      # - "traefik.http.routers.whoami.tls=true"
 
 networks:
   proxy:

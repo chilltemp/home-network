@@ -26,11 +26,11 @@ services:
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       # - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.websecure.http.tls=true"
+      # - "--entrypoints.websecure.address=:443"
+      # - "--entrypoints.websecure.http.tls=true"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
-      - "--providers.file.filename=/dynamic/tls.yaml"
+      # - "--providers.file.filename=/dynamic/tls.yaml"
 
       # Providers 
       - "--providers.docker=true"
@@ -39,12 +39,12 @@ services:
 
       # API & Dashboard 
       - "--api.dashboard=true"
-      - "--api.insecure=false"
+      # - "--api.insecure=false"
 
       # Observability 
       - "--log.level=DEBUG"
       - "--accesslog=true"
-      - "--metrics.prometheus=true"
+      # - "--metrics.prometheus=true"
 
   # Traefik Dynamic configuration via Docker labels
     labels:
@@ -52,11 +52,14 @@ services:
       - "traefik.enable=true"
 
       # Dashboard router
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.birdpi.local`)"
       # - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.birdpi.local`)"
       - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.tls=false"
+      - "traefik.http.routers.dashboard-home.rule=Host(`dashboard.birdpi.home-lan.net`)"
+      - "traefik.http.routers.dashboard-home.entrypoints=web"
+      - "traefik.http.routers.dashboard-home.service=api@internal"
+      # - "traefik.http.routers.dashboard.tls=true"
 
       # Basic‑auth middleware
       # - "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"
@@ -73,7 +76,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.birdpi.local`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami.tls=false"
+      - "traefik.http.routers.whoami-home.rule=Host(`whoami.birdpi.home-lan.net`)"
+      - "traefik.http.routers.whoami-home.entrypoints=web"
+      # - "traefik.http.routers.whoami.tls=true"
 
 networks:
   proxy:

@@ -20,6 +20,9 @@ services:
       - ./certs:/certs:ro
       - ./dynamic:/dynamic:ro
 
+    log:
+      level: DEBUG
+
     command:
       # EntryPoints
       - "--entrypoints.web.address=:80"

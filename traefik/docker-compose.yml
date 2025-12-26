@@ -20,9 +20,6 @@ services:
       - ./certs:/certs:ro
       - ./dynamic:/dynamic:ro
 
-    log:
-      level: DEBUG
-
     command:
       # EntryPoints
       - "--entrypoints.web.address=:80"
@@ -45,7 +42,7 @@ services:
       - "--api.insecure=false"
 
       # Observability 
-      - "--log.level=INFO"
+      - "--log.level=DEBUG"
       - "--accesslog=true"
       - "--metrics.prometheus=true"
 

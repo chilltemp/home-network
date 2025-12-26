@@ -28,7 +28,8 @@ services:
       - ./ssl:/ssl # SSL certificates
       - /dev/shm:/dev/shm # Shared memory
       - /tmp/pulseaudio.socket:/tmp/pulseaudio.socket
-      - /tmp/pulseaudio.client.conf:/etc/pulse/client.conf
+      # - /tmp/pulseaudio.client.conf:/etc/pulse/client.conf
+      - /etc/pulse/client.conf:/etc/pulse/client.conf
 
     devices:
       - /dev/snd:/dev/snd

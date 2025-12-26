@@ -56,7 +56,7 @@ services:
       # - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls=false"
 
       # Basic‑auth middleware
       # - "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"
@@ -73,7 +73,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.birdpi.local`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      # - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls=false"
 
 networks:
   proxy:

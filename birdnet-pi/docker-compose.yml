@@ -44,4 +44,5 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.birdpi.rule=Host(`www.${HOSTNAME}`)"
       - "traefik.http.routers.birdpi-fqdn.rule=Host(`www.${FQDN}`)"
+      - "traefik.http.routers.birdpi-fqdn.port=8081"
 

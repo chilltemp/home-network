@@ -42,7 +42,7 @@ services:
       # - "--api.insecure=false"
 
       # Observability 
-      - "--log.level=DEBUG"
+      - "--log.level=INFO"
       - "--accesslog=true"
       # - "--metrics.prometheus=true"
 
@@ -53,11 +53,11 @@ services:
 
       # Dashboard router
       # - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.birdpi.local`)"
-      - "traefik.http.routers.dashboard.entrypoints=web"
+      - "traefik.http.routers.dashboard.rule=Host(`proxy.${HOSTNAME}`)"
+      # - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard-home.rule=Host(`traefik.birdpi.home-lan.net`)"
-      - "traefik.http.routers.dashboard-home.entrypoints=web"
+      - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN}`)"
+      # - "traefik.http.routers.dashboard-home.entrypoints=web"
       - "traefik.http.routers.dashboard-home.service=api@internal"
       # - "traefik.http.routers.dashboard.tls=true"
 
@@ -74,11 +74,8 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME}.local`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami-homelan.rule=Host(`whoami.${HOSTNAME}.home-lan.net`)"
-      - "traefik.http.routers.whoami-homelan.entrypoints=web"
-      # - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME}`)"
+      - "traefik.http.routers.whoami-homelan.rule=Host(`whoami.${FQDN}`)"
 
 networks:
   proxy:

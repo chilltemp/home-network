@@ -40,14 +40,8 @@ services:
     tmpfs:
       - /tmp # Optional
 
-    # networks:
-    #   - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
-      # - "traefik.http.routers.birdpi.entrypoints=web"
-      # - "traefik.http.routers.birdpi-homelan.rule=Host(`birdpi.home-lan.net`)"
-      - "traefik.http.routers.birdpi-home.rule=Host(`${FQDN}`)"
-      # - "traefik.http.routers.birdpi-home.entrypoints=web"
-      # - "traefik.http.routers.birdpi.tls=true"
+      - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
 

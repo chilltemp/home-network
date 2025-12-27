@@ -74,10 +74,10 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.birdpi.local`)"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME}.local`)"
       - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami-home.rule=Host(`whoami.birdpi.home-lan.net`)"
-      - "traefik.http.routers.whoami-home.entrypoints=web"
+      - "traefik.http.routers.whoami-homelan.rule=Host(`whoami.${HOSTNAME}.home-lan.net`)"
+      - "traefik.http.routers.whoami-homelan.entrypoints=web"
       # - "traefik.http.routers.whoami.tls=true"
 
 networks:

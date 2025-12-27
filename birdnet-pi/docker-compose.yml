@@ -22,6 +22,7 @@ services:
       # - MQTT_USER_manual=  # Optional: Manual MQTT user
       - PULSE_SERVER=unix:/tmp/pulseaudio.socket
       - PULSE_COOKIE=/tmp/pulseaudio.cookie
+      - OS_HOSTNAME: ${HOSTNAME}
 
     volumes:
       - ./config:/config # All your configuration files - and location of the default Birdsongs folder
@@ -44,10 +45,10 @@ services:
     #   - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.birdpi.rule=Host(`birdpi.${HOSTNAME}.local`)"
+      - "traefik.http.routers.birdpi.rule=Host(`birdpi.${OS_HOSTNAME}.local`)"
       # - "traefik.http.routers.birdpi.entrypoints=web"
       # - "traefik.http.routers.birdpi-homelan.rule=Host(`birdpi.home-lan.net`)"
-      - "traefik.http.routers.birdpi-home.rule=Host(`birdpi.${HOSTNAME}.home-lan.net`)"
+      - "traefik.http.routers.birdpi-home.rule=Host(`birdpi.${OS_HOSTNAME}.home-lan.net`)"
       # - "traefik.http.routers.birdpi-home.entrypoints=web"
       # - "traefik.http.routers.birdpi.tls=true"
 

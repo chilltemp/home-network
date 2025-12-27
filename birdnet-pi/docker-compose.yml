@@ -44,8 +44,8 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.birdpi.rule=Host(`www.${HOSTNAME}`)"
-      - "traefik.http.routers.birdpi-fqdn.rule=Host(`www.${FQDN}`)"
+      - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
+      - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
       - "traefik.http.services.birdpi-fqdn.loadbalancer.server.port=8081"
 
 networks:

@@ -22,7 +22,7 @@ services:
       # - MQTT_USER_manual=  # Optional: Manual MQTT user
       - PULSE_SERVER=unix:/tmp/pulseaudio.socket
       - PULSE_COOKIE=/tmp/pulseaudio.cookie
-      - OS_HOSTNAME: ${HOSTNAME}
+      - OS_HOSTNAME=${HOSTNAME}
 
     volumes:
       - ./config:/config # All your configuration files - and location of the default Birdsongs folder

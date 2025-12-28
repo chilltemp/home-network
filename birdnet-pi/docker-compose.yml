@@ -1,3 +1,10 @@
+# birdnet-pi docker-compose.yml
+# 
+# Required Environment Variables:
+#   HOST_DATA_PATH - Path on the host where BirdNET-Pi data will be stored
+#   HOSTNAME - The hostname to access BirdNET-Pi (e.g., birdpi.local)
+#   FQDN - The fully qualified domain name to access BirdNET-Pi (e.g., birdpi.example.com)
+
 services:
   birdnet-pi:
     container_name: birdnet-pi
@@ -24,8 +31,8 @@ services:
       - PULSE_COOKIE=/tmp/pulseaudio.cookie
 
     volumes:
-      - ./config:/config # All your configuration files - and location of the default Birdsongs folder
-      - ./ssl:/ssl # SSL certificates
+      - ${HOST_DATA_PATH}/config:/config # All your configuration files - and location of the default Birdsongs folder
+      - ${HOST_DATA_PATH}/ssl:/ssl # SSL certificates
       - /dev/shm:/dev/shm # Shared memory
       - /tmp/pulseaudio.socket:/tmp/pulseaudio.socket
       # - /tmp/pulseaudio.client.conf:/etc/pulse/client.conf

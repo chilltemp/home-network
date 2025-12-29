@@ -11,6 +11,7 @@ services:
     # image: ghcr.io/alexbelgium/birdnet-pi-amd64:latest
     image: ghcr.io/alexbelgium/birdnet-pi-aarch64:latest
     restart: unless-stopped
+    privileged: true # Required for accessing audio devices
     ports:
       - "8081:8081" # Used to access WebUI
       # - "80:80" # Optional: set to 80 to use Caddy's automatic SSL. Can otherwise be set to null to avoid opening an additional port

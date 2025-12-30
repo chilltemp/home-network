@@ -1,4 +1,32 @@
+# traefik docker-compose.yml
+# 
+# Required Environment Variables:
+#   HOST_DATA_PATH - Path on the host where Traefik data will be stored
+#   HOSTNAME - The hostname for the host (e.g., server.local becomes...)
+#             * proxy.server.local for accessing the Traefik dashboard
+#             * whoami.server.local for accessing the Whoami test service 
+#   FQDN - The fully qualified domain name for the host (e.g., server.example.com becomes...)
+#             * proxy.server.example.com for accessing the Traefik dashboard
+#             * whoami.server.example.com for accessing the Whoami test service 
+#   CLOUDFLARE_DOMAIN - The main domain for the host (e.g., example.com)
+#   CLOUDFLARE_DNS_API_TOKEN - Cloudflare API Token with DNS edit permissions for the DOMAIN
+
 services:
+
+  git-sync:
+    image: k8s.gcr.io/git-sync/git-sync:v3.4.0 # A common git-sync image
+    restart: always
+    volumes:
+      - git-network-config:/git
+    environment:
+      GIT_SYNC_REPO: https://github.com/chilltemp/home-network
+      GIT_SYNC_BRANCH: main
+      GIT_SYNC_DEST: /git
+      # Sync every 30 seconds
+      GIT_SYNC_WAIT: 60
+      # Use the volume path where git-sync writes files
+      # Other specific options available for authentication, etc.
+        
   traefik:
     image: traefik:v3.6
     container_name: traefik
@@ -15,10 +43,14 @@ services:
       - "443:443"
       - "8080:8080"
 
+    environment:
+      - CF_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/certs:ro
-      - ./dynamic:/dynamic:ro
+      - ${HOST_DATA_PATH}/certs:/certs:rw
+      - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
+      - git-network-config:/network-config:ro
 
     command:
       # EntryPoints
@@ -26,11 +58,11 @@ services:
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       # - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls=true"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
-      # - "--providers.file.filename=/dynamic/tls.yaml"
+      - "--providers.file.filename=/network-config/tls.yaml"
 
       # Providers 
       - "--providers.docker=true"
@@ -59,7 +91,11 @@ services:
       - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN}`)"
       # - "traefik.http.routers.dashboard-home.entrypoints=web"
       - "traefik.http.routers.dashboard-home.service=api@internal"
-      # - "traefik.http.routers.dashboard.tls=true"
+
+      - "traefik.http.routers.dashboard-secure.tls=true"
+      - "traefik.http.routers.dashboard-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.dashboard-secure.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
+      - "traefik.http.routers.dashboard-secure.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
 
       # Basic‑auth middleware
       # - "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"
@@ -80,3 +116,7 @@ services:
 networks:
   proxy:
     name: proxy
+
+volumes:
+  git-network-config:
+

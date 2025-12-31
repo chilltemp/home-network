@@ -107,7 +107,7 @@ services:
       - "traefik.http.routers.dashboard-home.service=api@internal"
 
       - "traefik.http.routers.dashboard-home.tls=true"
-      - "traefik.http.routers.dashboard-home.tls.certresolver=cloudflare"
+      - "traefik.http.routers.dashboard-home.tls.certresolver=cloudflare.acme"
       - "traefik.http.routers.dashboard-home.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
       - "traefik.http.routers.dashboard-home.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
 

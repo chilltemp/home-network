@@ -17,7 +17,7 @@ services:
     image: k8s.gcr.io/git-sync/git-sync:v3.4.0 # A common git-sync image
     restart: always
     volumes:
-      - git-network-config:/git
+      - ${HOST_CONFIG_PATH}:/git
     environment:
       GIT_SYNC_REPO: https://github.com/chilltemp/home-network.git
       GIT_SYNC_BRANCH: main
@@ -50,7 +50,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${HOST_DATA_PATH}/certs:/certs:rw
       - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
-      - git-network-config:/network-config:ro
+      - ${HOST_CONFIG_PATH}:/network-config:ro
 
     command:
       # EntryPoints
@@ -116,7 +116,4 @@ services:
 networks:
   proxy:
     name: proxy
-
-volumes:
-  git-network-config:
 

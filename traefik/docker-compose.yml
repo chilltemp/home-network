@@ -126,7 +126,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME}`)"
-      - "traefik.http.routers.whoami-homelan.rule=Host(`whoami.${FQDN}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+      - "traefik.http.routers.whoami-home.rule=Host(`whoami.${FQDN}`)"
+      - "traefik.http.routers.whoami-home.entrypoints=websecure"
+      - "traefik.http.routers.whoami-home.tls=true"
+      - "traefik.http.routers.whoami-home.tls.certresolver=cloudflare"
 
 networks:
   proxy:

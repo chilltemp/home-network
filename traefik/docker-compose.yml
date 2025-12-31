@@ -19,7 +19,7 @@ services:
     volumes:
       - git-network-config:/git
     environment:
-      GIT_SYNC_REPO: https://github.com/chilltemp/home-network
+      GIT_SYNC_REPO: https://github.com/chilltemp/home-network.git
       GIT_SYNC_BRANCH: main
       GIT_SYNC_DEST: /git
       # Sync every 30 seconds

@@ -19,19 +19,19 @@
 
 services:
 
-  git-sync:
-    image: k8s.gcr.io/git-sync/git-sync:v4.5.1
-    restart: always
-    user: "1000:1000"
-    volumes:
-      - ${HOST_CONFIG_PATH}:/git
-    environment:
-      GITSYNC_REPO: https://github.com/chilltemp/home-network.git
-      GITSYNC_REF: main
-      GITSYNC_LINK: /git/sync
-      GITSYNC_ROOT: /git/root
-      GITSYNC_PERIOD: 60s
-      # https://github.com/kubernetes/git-sync?tab=readme-ov-file
+  # git-sync:
+  #   image: k8s.gcr.io/git-sync/git-sync:v4.5.1
+  #   restart: always
+  #   user: "1000:1000"
+  #   volumes:
+  #     - ${HOST_CONFIG_PATH}:/git
+  #   environment:
+  #     GITSYNC_REPO: https://github.com/chilltemp/home-network.git
+  #     GITSYNC_REF: main
+  #     GITSYNC_LINK: /git/sync
+  #     GITSYNC_ROOT: /git/root
+  #     GITSYNC_PERIOD: 60s
+  #     # https://github.com/kubernetes/git-sync?tab=readme-ov-file
         
   traefik:
     image: traefik:v3.6
@@ -56,7 +56,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${HOST_DATA_PATH}/letsencrypt:/letsencrypt:rw
       - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
-      - ${HOST_CONFIG_PATH}:/network-config:ro
+      # - ${HOST_CONFIG_PATH}:/network-config:ro
 
     command:
       # EntryPoints

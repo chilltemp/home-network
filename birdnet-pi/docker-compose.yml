@@ -53,6 +53,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
+      - "traefik.http.services.birdpi.loadbalancer.server.port=8081"
+      
+      - "traefik.http.routers.birdpi-fqdn.tls=true"
+      - "traefik.http.routers.birdpi-fqdn.tls.certresolver=cloudflare"
+      - "traefik.http.routers.birdpi-fqdn.entrypoints=websecure"
       - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
       - "traefik.http.services.birdpi-fqdn.loadbalancer.server.port=8081"
 

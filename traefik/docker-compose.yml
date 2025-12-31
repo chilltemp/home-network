@@ -66,6 +66,8 @@ services:
       # - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
       # - "--providers.file.filename=/network-config/sync/traefik/tls.yml"
@@ -103,13 +105,10 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
 
       - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN}`)"
-      # - "traefik.http.routers.dashboard-home.entrypoints=websecure"
+      - "traefik.http.routers.dashboard-home.entrypoints=websecure"
       - "traefik.http.routers.dashboard-home.service=api@internal"
-
       - "traefik.http.routers.dashboard-home.tls=true"
       - "traefik.http.routers.dashboard-home.tls.certresolver=cloudflare"
-      - "traefik.http.routers.dashboard-home.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
-      - "traefik.http.routers.dashboard-home.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
 
       # Basic‑auth middleware
       # - "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"

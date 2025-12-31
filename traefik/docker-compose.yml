@@ -13,6 +13,9 @@
 # 
 # Needs permissions to the DATA_*_PATH directories:
 #   sudo chown -R 1000:1000 /data
+#   mkdir -p /data/traefik/letsencrypt
+#   echo {} > /data/traefik/letsencrypt/acme.json
+#   sudo chown 1000:1000 /data/traefik/letsencrypt/acme.json
 
 services:
 
@@ -51,7 +54,7 @@ services:
       
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${HOST_DATA_PATH}/certs:/certs:rw
+      - ${HOST_DATA_PATH}/letsencrypt:/letsencrypt:rw
       - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
       - ${HOST_CONFIG_PATH}:/network-config:ro
 
@@ -85,7 +88,7 @@ services:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL}"
-      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.cloudflare.acme.storage=/data/traefik/letsencrypt/acme.json"
 
 
   # Traefik Dynamic configuration via Docker labels

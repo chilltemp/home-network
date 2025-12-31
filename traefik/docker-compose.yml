@@ -14,18 +14,17 @@
 services:
 
   git-sync:
-    image: k8s.gcr.io/git-sync/git-sync:v3.4.0 # A common git-sync image
+    image: k8s.gcr.io/git-sync/git-sync:v4.5.1
     restart: always
     volumes:
       - ${HOST_CONFIG_PATH}:/git
     environment:
-      GIT_SYNC_REPO: https://github.com/chilltemp/home-network.git
-      GIT_SYNC_BRANCH: main
-      GIT_SYNC_DEST: /git
-      # Sync every 30 seconds
-      GIT_SYNC_WAIT: 60
-      # Use the volume path where git-sync writes files
-      # Other specific options available for authentication, etc.
+      GITSYNC_REPO: https://github.com/chilltemp/home-network.git
+      GITSYNC_REF: main
+      GITSYNC_LINK: /git/sync
+      GITSYNC_ROOT: /git/root
+      GITSYNC_PERIOD: 60s
+      # https://github.com/kubernetes/git-sync?tab=readme-ov-file
         
   traefik:
     image: traefik:v3.6
@@ -62,7 +61,7 @@ services:
       - "--entrypoints.websecure.http.tls=true"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
-      - "--providers.file.filename=/network-config/tls.yaml"
+      - "--providers.file.filename=/network-config/sync/traefik/tls.yml"
 
       # Providers 
       - "--providers.docker=true"

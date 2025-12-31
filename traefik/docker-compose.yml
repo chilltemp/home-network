@@ -80,7 +80,7 @@ services:
       - "--api.insecure=false"
 
       # Observability 
-      - "--log.level=INFO"
+      - "--log.level=DEBUG"
       - "--accesslog=true"
       # - "--metrics.prometheus=true"
 

@@ -66,10 +66,10 @@ services:
       # - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
-      # - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
-      # - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
-      - "--entrypoints.websecure.http.tls.domains[0].main=${FQDN}"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${FQDN}"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[1].main=${FQDN}"
+      - "--entrypoints.websecure.http.tls.domains[1].sans=*.${FQDN}"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
       # - "--providers.file.filename=/network-config/sync/traefik/tls.yml"

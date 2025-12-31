@@ -54,12 +54,19 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
       - "traefik.http.services.birdpi.loadbalancer.server.port=8081"
-      
+
       - "traefik.http.routers.birdpi-fqdn.tls=true"
       - "traefik.http.routers.birdpi-fqdn.tls.certresolver=cloudflare"
       - "traefik.http.routers.birdpi-fqdn.entrypoints=websecure"
       - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
       - "traefik.http.services.birdpi-fqdn.loadbalancer.server.port=8081"
+
+      - "traefik.http.routers.dashboard-sub.rule=Host(`ui.${FQDN}`)"
+      - "traefik.http.routers.dashboard-sub.entrypoints=websecure"
+      - "traefik.http.routers.dashboard-sub.service=api@internal"
+      - "traefik.http.routers.dashboard-sub.tls=true"
+      - "traefik.http.routers.dashboard-sub.tls.certresolver=cloudflare"      
+      - "traefik.http.services.dashboard-sub.loadbalancer.server.port=8081"
 
 networks:
   proxy:

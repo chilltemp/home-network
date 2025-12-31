@@ -76,8 +76,8 @@ services:
       - "--providers.docker.network=proxy"
 
       # API & Dashboard 
-      - "--api.dashboard=true"
-      # - "--api.insecure=false"
+      # - "--api.dashboard=true"
+      - "--api.insecure=false"
 
       # Observability 
       - "--log.level=INFO"
@@ -98,18 +98,18 @@ services:
       - "traefik.enable=true"
 
       # Dashboard router
-      # - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.rule=Host(`proxy.${HOSTNAME}`)"
-      # - "traefik.http.routers.dashboard.entrypoints=web"
+      # - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.service=api@internal"
+
       - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN}`)"
-      # - "traefik.http.routers.dashboard-home.entrypoints=web"
+      # - "traefik.http.routers.dashboard-home.entrypoints=websecure"
       - "traefik.http.routers.dashboard-home.service=api@internal"
 
-      - "traefik.http.routers.dashboard-secure.tls=true"
-      - "traefik.http.routers.dashboard-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.dashboard-secure.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
-      - "traefik.http.routers.dashboard-secure.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
+      - "traefik.http.routers.dashboard-home.tls=true"
+      - "traefik.http.routers.dashboard-home.tls.certresolver=cloudflare"
+      - "traefik.http.routers.dashboard-home.tls.domains[0].main=${CLOUDFLARE_DOMAIN}"
+      - "traefik.http.routers.dashboard-home.tls.domains[0].sans=*.${CLOUDFLARE_DOMAIN}"
 
       # Basic‑auth middleware
       # - "traefik.http.middlewares.dashboard-auth.basicauth.users=<PASTE_HASH_HERE>"

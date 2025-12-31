@@ -10,6 +10,9 @@
 #             * whoami.server.example.com for accessing the Whoami test service 
 #   CLOUDFLARE_DOMAIN - The main domain for the host (e.g., example.com)
 #   CLOUDFLARE_DNS_API_TOKEN - Cloudflare API Token with DNS edit permissions for the DOMAIN
+# 
+# Needs permissions to the DATA_*_PATH directories:
+#   sudo chown -R 1000:1000 /data
 
 services:
 
@@ -62,7 +65,7 @@ services:
       - "--entrypoints.websecure.http.tls=true"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
-      - "--providers.file.filename=/network-config/sync/traefik/tls.yml"
+      # - "--providers.file.filename=/network-config/sync/traefik/tls.yml"
 
       # Providers 
       - "--providers.docker=true"
@@ -77,6 +80,13 @@ services:
       - "--log.level=INFO"
       - "--accesslog=true"
       # - "--metrics.prometheus=true"
+
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL}"
+      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
+
 
   # Traefik Dynamic configuration via Docker labels
     labels:

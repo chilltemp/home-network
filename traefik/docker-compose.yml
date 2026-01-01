@@ -16,6 +16,7 @@
 #   mkdir -p /data/traefik/letsencrypt
 #   echo {} > /data/traefik/letsencrypt/acme.json
 #   sudo chown 1000:1000 /data/traefik/letsencrypt/acme.json
+#   sudo chmod 600 /data/traefik/letsencrypt/acme.json
 
 services:
 

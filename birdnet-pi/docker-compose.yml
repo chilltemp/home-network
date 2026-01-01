@@ -12,9 +12,8 @@ services:
     image: ghcr.io/alexbelgium/birdnet-pi-aarch64:latest
     restart: unless-stopped
     privileged: true # Required for accessing audio devices
-    ports:
-      - "8081:8081" # Used to access WebUI
-      # - "80:80" # Optional: set to 80 to use Caddy's automatic SSL. Can otherwise be set to null to avoid opening an additional port
+    # ports:
+    #   - "8081:8081" # Used to access WebUI (only needed if not using Traefik)
     environment:
       - TZ=America/New_York # Optional: Set your timezone according to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
       - BIRDSONGS_FOLDER=/config/BirdSongs # Folder to store bird songs, be sure to use a path that is mapped to a volume (such as /config)

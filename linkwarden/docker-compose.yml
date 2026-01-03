@@ -10,7 +10,7 @@ version: '3.8'
 services:
   linkwarden:
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER:?POSTGRES_USER not set}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD not set}@linkwarden-postgres-1:5432/${POSTGRES_DB?-postgres}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:?POSTGRES_USER not set}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD not set}@postgres:5432/${POSTGRES_DB?-postgres}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:?NEXTAUTH_SECRET not set}
       - NEXTAUTH_URL=${NEXTAUTH_URL:?NEXTAUTH_URL not set}
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:?MEILI_MASTER_KEY not set}

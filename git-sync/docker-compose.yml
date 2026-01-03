@@ -1,0 +1,22 @@
+# docker-compose.yml - git-sync for network configuration
+# 
+# Environment Variables:
+#   HOST_DATA_PATH - (Optional) Path on the host where synced data will be stored (default: /data/network-config)
+#   GITSYNC_PERIOD - (Optional) Period between syncs (default: 6h) 
+
+services:
+
+  # https://github.com/kubernetes/git-sync?tab=readme-ov-file
+  network-config-sync:
+    image: k8s.gcr.io/git-sync/git-sync:v4.5.1
+    restart: always
+    user: "1000:1000"
+    volumes:
+      - ${HOST_DATA_PATH:-/data/network-config}:/git
+    environment:
+      GITSYNC_REPO: https://github.com/chilltemp/home-network.git
+      GITSYNC_REF: main
+      GITSYNC_LINK: /git/sync # symlink to the latest synced commit, can be used by other containers
+      GITSYNC_ROOT: /git/root # where the git repo is cloned, don't use this path directly
+      GITSYNC_PERIOD: ${GITSYNC_PERIOD:-6h}
+        

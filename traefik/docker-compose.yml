@@ -1,38 +1,24 @@
 # traefik docker-compose.yml
 # 
 # Required Environment Variables:
-#   HOST_DATA_PATH - Path on the host where Traefik data will be stored
+#   HOST_DATA_PATH - (optional) Path on the host where Traefik data will be stored (default: /data/traefik)
 #   HOSTNAME - The hostname for the host (e.g., server.local becomes...)
 #             * proxy.server.local for accessing the Traefik dashboard
 #             * whoami.server.local for accessing the Whoami test service 
+#   DOMAIN - The domain for the host (e.g., example.com)
 #   FQDN - The fully qualified domain name for the host (e.g., server.example.com becomes...)
 #             * proxy.server.example.com for accessing the Traefik dashboard
 #             * whoami.server.example.com for accessing the Whoami test service 
-#   CLOUDFLARE_DOMAIN - The main domain for the host (e.g., example.com)
 #   CLOUDFLARE_DNS_API_TOKEN - Cloudflare API Token with DNS edit permissions for the DOMAIN
 # 
 # Needs permissions to the DATA_*_PATH directories:
-#   sudo chown -R 1000:1000 /data
+#   sudo chown -R 1000:1000 /data/traefik
 #   mkdir -p /data/traefik/letsencrypt
 #   echo {} > /data/traefik/letsencrypt/acme.json
 #   sudo chown 1000:1000 /data/traefik/letsencrypt/acme.json
 #   sudo chmod 600 /data/traefik/letsencrypt/acme.json
 
 services:
-
-  # git-sync:
-  #   image: k8s.gcr.io/git-sync/git-sync:v4.5.1
-  #   restart: always
-  #   user: "1000:1000"
-  #   volumes:
-  #     - ${HOST_CONFIG_PATH}:/git
-  #   environment:
-  #     GITSYNC_REPO: https://github.com/chilltemp/home-network.git
-  #     GITSYNC_REF: main
-  #     GITSYNC_LINK: /git/sync
-  #     GITSYNC_ROOT: /git/root
-  #     GITSYNC_PERIOD: 60s
-  #     # https://github.com/kubernetes/git-sync?tab=readme-ov-file
         
   traefik:
     image: traefik:v3.6
@@ -51,12 +37,12 @@ services:
       # - "8080:8080"
 
     environment:
-      - CF_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+      - CF_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN:?CLOUDFLARE_DNS_API_TOKEN not set}
       
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${HOST_DATA_PATH}/letsencrypt:/letsencrypt:rw
-      - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
+      - ${HOST_DATA_PATH:-/data/traefik}/letsencrypt:/letsencrypt:rw
+      # - ${HOST_DATA_PATH}/dynamic:/dynamic:ro
       # - ${HOST_CONFIG_PATH}:/network-config:ro
 
     command:
@@ -67,10 +53,10 @@ services:
       # - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
-      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
-      - "--entrypoints.websecure.http.tls.domains[1].main=${FQDN}"
-      - "--entrypoints.websecure.http.tls.domains[1].sans=*.${FQDN}"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN:?DOMAIN not set}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN:?DOMAIN not set}"
+      - "--entrypoints.websecure.http.tls.domains[1].main=${FQDN:?FQDN not set}"
+      - "--entrypoints.websecure.http.tls.domains[1].sans=*.${FQDN:?FQDN not set}"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
       # - "--providers.file.filename=/network-config/sync/traefik/tls.yml"
@@ -93,7 +79,7 @@ services:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
       - "--certificatesresolvers.cloudflare.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL}"
+      - "--certificatesresolvers.cloudflare.acme.email=${CLOUDFLARE_EMAIL:?CLOUDFLARE_EMAIL not set}"
       - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
 
 
@@ -103,11 +89,11 @@ services:
       - "traefik.enable=true"
 
       # Dashboard router
-      - "traefik.http.routers.dashboard.rule=Host(`proxy.${HOSTNAME}`)"
+      - "traefik.http.routers.dashboard.rule=Host(`proxy.${HOSTNAME:?HOSTNAME not set}`)"
       # - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.service=api@internal"
 
-      - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN}`)"
+      - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN:?FQDN not set}`)"
       - "traefik.http.routers.dashboard-home.entrypoints=websecure"
       - "traefik.http.routers.dashboard-home.service=api@internal"
       - "traefik.http.routers.dashboard-home.tls=true"
@@ -126,10 +112,10 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME}`)"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOSTNAME:?HOSTNAME not set}`)"
       - "traefik.http.routers.whoami.entrypoints=web"
 
-      - "traefik.http.routers.whoami-home.rule=Host(`whoami.${FQDN}`)"
+      - "traefik.http.routers.whoami-home.rule=Host(`whoami.${FQDN:?FQDN not set}`)"
       - "traefik.http.routers.whoami-home.entrypoints=websecure"
       - "traefik.http.routers.whoami-home.tls=true"
       - "traefik.http.routers.whoami-home.tls.certresolver=cloudflare"

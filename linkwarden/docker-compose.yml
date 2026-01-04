@@ -75,6 +75,7 @@ services:
       # most users won't need pgAdmin.
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      SCRIPT_NAME: /pgadmin
     networks:
       - linkwarden
       - proxy

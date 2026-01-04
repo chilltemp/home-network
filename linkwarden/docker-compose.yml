@@ -66,6 +66,25 @@ services:
     networks:
       - linkwarden
 
+  pgadmin:
+    image: dpage/pgadmin4:9.11.0
+    # Don't auto start pgAdmin, as it's not needed for normal operation
+    restart: no
+    environment:
+      # Email and password are REQUIRED for the pgAdmin.  I didn't make the required for this file because
+      # most users won't need pgAdmin.
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - linkwarden
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.linkwarden.tls=true"
+      - "traefik.http.routers.linkwarden.tls.certresolver=cloudflare"
+      - "traefik.http.routers.linkwarden.entrypoints=websecure"
+      - "traefik.http.routers.linkwarden.rule=Host(`${FQDN:?FQDN not set}`) && PathPrefix(`/pgadmin`)"
+      - "traefik.http.services.linkwarden.loadbalancer.server.port=80"
 
 networks:
   proxy:

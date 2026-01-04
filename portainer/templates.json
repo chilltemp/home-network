@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/portainer/templates/refs/heads/v3/schema.json",
   "version": "3",
   "templates": [
     {
@@ -15,14 +16,38 @@
         "url": "https://github.com/chilltemp/network-config",
         "stackfile": "traefik/docker-compose.yml"
       },
-      "env": {
-        "CLOUDFLARE_DNS_API_TOKEN": "Cloudflare API Token with DNS edit permissions for the DOMAIN",
-        "CLOUDFLARE_EMAIL": "Email address associated with the Cloudflare API Token",
-        "DOMAIN": "The domain for the host (e.g., example.com)",
-        "FQDN": "The fully qualified domain name for the host (e.g., server.example.com becomes...)\n * proxy.server.example.com for accessing the Traefik dashboard\n * whoami.server.example.com for accessing the Whoami test service ",
-        "HOST_DATA_PATH": "(optional) Path on the host where Traefik data will be stored (default: /data/traefik)",
-        "HOSTNAME": "The hostname for the host (e.g., server.local becomes...)\n * proxy.server.local for accessing the Traefik dashboard\n * whoami.server.local for accessing the Whoami test service "
-      }
+      "env": [
+        {
+          "name": "CLOUDFLARE_DNS_API_TOKEN",
+          "label": "Cloudflare dns api token",
+          "description": "Cloudflare API Token with DNS edit permissions for the DOMAIN"
+        },
+        {
+          "name": "CLOUDFLARE_EMAIL",
+          "label": "Cloudflare email",
+          "description": "Email address associated with the Cloudflare API Token"
+        },
+        {
+          "name": "DOMAIN",
+          "label": "Domain name",
+          "description": "The domain for the host (e.g., example.com)"
+        },
+        {
+          "name": "FQDN",
+          "label": "Fully qualified domain name",
+          "description": "The fully qualified domain name for the host (e.g., server.example.com becomes...)\n * proxy.server.example.com for accessing the Traefik dashboard\n * whoami.server.example.com for accessing the Whoami test service "
+        },
+        {
+          "name": "HOST_DATA_PATH",
+          "label": "Host data path",
+          "description": "(optional) Path on the host where Traefik data will be stored (default: /data/traefik)"
+        },
+        {
+          "name": "HOSTNAME",
+          "label": "Hostname",
+          "description": "The hostname for the host (e.g., server.local becomes...)\n * proxy.server.local for accessing the Traefik dashboard\n * whoami.server.local for accessing the Whoami test service "
+        }
+      ]
     }
   ]
 }

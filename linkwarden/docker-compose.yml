@@ -17,7 +17,7 @@ services:
       - MEILI_HOST=http://meilisearch:7700
     restart: always
     # build: . # uncomment to build from source
-    image: ghcr.io/linkwarden/linkwarden:v2.13.2
+    image: ghcr.io/linkwarden/linkwarden:v2.13.5
     # ports:
     #   - 3000:3000
     volumes:

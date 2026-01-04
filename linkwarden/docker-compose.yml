@@ -80,11 +80,12 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.linkwarden.tls=true"
-      - "traefik.http.routers.linkwarden.tls.certresolver=cloudflare"
-      - "traefik.http.routers.linkwarden.entrypoints=websecure"
-      - "traefik.http.routers.linkwarden.rule=Host(`${FQDN:?FQDN not set}`) && PathPrefix(`/pgadmin`)"
-      - "traefik.http.services.linkwarden.loadbalancer.server.port=80"
+      - "traefik.http.routers.pgadmin.tls=true"
+      - "traefik.http.routers.pgadmin.tls.certresolver=cloudflare"
+      - "traefik.http.routers.pgadmin.entrypoints=websecure"
+      - "traefik.http.routers.pgadmin.rule=Host(`pg-${FQDN:?FQDN not set}`) && PathPrefix(`/pgadmin`)"
+      - "traefik.http.services.pgadmin.loadbalancer.server.port=80"
+      - "traefik.http.routers.pgadmin.priority=100"
 
 networks:
   proxy:

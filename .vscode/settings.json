@@ -25,6 +25,7 @@
     "MQTT",
     "NEXTAUTH",
     "oldmac",
+    "openobserve",
     "pgadmin",
     "privkey",
     "pulseaudio",
@@ -32,6 +33,7 @@
     "tmpfs",
     "tphakala",
     "traefik",
-    "websecure"
+    "websecure",
+    "zinclabs"
   ]
 }

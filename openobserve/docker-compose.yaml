@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  openobserve:
+    image: o2cr.ai/openobserve/openobserve-enterprise:latest
+    container_name: openobserve
+    restart: unless-stopped
+    ports:
+      # Web UI and Ingestion APIs (HTTP)
+      # - "5080:5080"
+      # Syslog ingestion (UDP and TCP)
+      - "514:514/udp"
+      - "514:514/tcp"
+    volumes:
+      - ${HOST_DATA_PATH:-/data/openobserve}:/data
+    environment:
+      # Set initial root user credentials (required on first startup)
+      ZO_ROOT_USER_EMAIL: ${ZO_ROOT_USER_EMAIL}
+      ZO_ROOT_USER_PASSWORD: ${ZO_ROOT_USER_PASSWORD}
+      # Configure for single-node local mode with disk storage
+      ZO_LOCAL_MODE: "true"
+      ZO_LOCAL_MODE_STORAGE: "disk"
+      ZO_DATA_DIR: "/data"
+
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openobserve.tls=true"
+      - "traefik.http.routers.openobserve.tls.certresolver=cloudflare"
+      - "traefik.http.routers.openobserve.entrypoints=websecure"
+      - "traefik.http.routers.openobserve.rule=Host(`${FQDN:?FQDN not set}`)"
+      - "traefik.http.services.openobserve.loadbalancer.server.port=5080"
+      
+networks:
+  proxy:
+    name: proxy
+  # openobserve-network:
+  #   driver: bridge
+
+volumes:
+  data:
+    driver: local

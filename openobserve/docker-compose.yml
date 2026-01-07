@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     ports:
       # Web UI and Ingestion APIs (HTTP)
-      # - "5080:5080"
+      - "5080:5080"
       # Syslog ingestion (UDP and TCP)
       - "514:514/udp"
       - "514:514/tcp"

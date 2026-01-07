@@ -48,6 +48,43 @@
           "description": "The hostname for the host (e.g., server.local becomes...)\n * proxy.server.local for accessing the Traefik dashboard\n * whoami.server.local for accessing the Whoami test service "
         }
       ]
+    },
+    {
+      "id": 2,
+      "type": 3,
+      "title": "Open Observe",
+      "name": "openobserve",
+      "description": "Platform, Logs, Metrics, Traces, Frontend Monitoring, Pipelines, Alerts, Visualizations & Dashboard",
+      "note": "You'll need to set root user credentials (ZO_ROOT_USER_EMAIL and ZO_ROOT_USER_PASSWORD) on first startup only. They are not required for subsequent runs.",
+      "categories": ["Logging", "Monitoring", "Alerts"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/A75G/docker-templates/master/templates/icons/openobserve.png",
+      "repository": {
+        "url": "https://github.com/chilltemp/network-config",
+        "stackfile": "openobserve/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "ZO_ROOT_USER_EMAIL",
+          "label": "Open Observe root user email",
+          "description": "Email address for the Open Observe root user"
+        },
+        {
+          "name": "ZO_ROOT_USER_PASSWORD",
+          "label": "Open Observe root user password",
+          "description": "Password for the Open Observe root user"
+        },
+        {
+          "name": "FQDN",
+          "label": "Fully qualified domain name",
+          "description": "The fully qualified domain name for the host (e.g., server.example.com becomes...)\n * proxy.server.example.com for accessing the Traefik dashboard\n * whoami.server.example.com for accessing the Whoami test service "
+        },
+        {
+          "name": "HOST_DATA_PATH",
+          "label": "Host data path",
+          "description": "(optional) Path on the host where Open Observe data will be stored (default: /data/openobserve)"
+        }
+      ]
     }
   ]
 }

@@ -24,6 +24,7 @@ services:
 
     networks:
       - proxy
+      - openobserve
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.openobserve.tls=true"
@@ -48,12 +49,14 @@ services:
       - 601:6601/tcp
       - 6514:6514/tcp # TLS
     restart: unless-stopped
+    networks:
+      - openobserve
 
 networks:
   proxy:
     name: proxy
-  # openobserve-network:
-  #   driver: bridge
+  openobserve:
+    name: openobserve
 
 volumes:
   data:

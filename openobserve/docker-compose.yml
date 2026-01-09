@@ -5,12 +5,12 @@ services:
     image: o2cr.ai/openobserve/openobserve-enterprise:latest
     container_name: openobserve
     restart: unless-stopped
-    ports:
-      # Web UI and Ingestion APIs (HTTP)
-      - "5080:5080"
-      # Syslog ingestion (UDP and TCP)
-      - "514:514/udp"
-      - "514:514/tcp"
+    # ports:
+    #   # Web UI and Ingestion APIs (HTTP)
+    #   - "5080:5080"
+    #   # Syslog ingestion (UDP and TCP)
+    #   - "514:514/udp"
+    #   - "514:514/tcp"
     volumes:
       - ${HOST_DATA_PATH:-/data/openobserve}:/data
     environment:
@@ -31,7 +31,24 @@ services:
       - "traefik.http.routers.openobserve.entrypoints=websecure"
       - "traefik.http.routers.openobserve.rule=Host(`${FQDN:?FQDN not set}`)"
       - "traefik.http.services.openobserve.loadbalancer.server.port=5080"
-      
+
+  syslog-ng:
+    image: lscr.io/linuxserver/syslog-ng:latest
+    container_name: syslog-ng
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - LOG_TO_STDOUT=true #optional
+    volumes:
+      - ${HOST_DATA_PATH:-/data/openobserve}/syslog-ng:/config
+      # - /path/to/log:/var/log #optional
+    ports:
+      - 514:5514/udp
+      - 601:6601/tcp
+      - 6514:6514/tcp # TLS
+    restart: unless-stopped
+
 networks:
   proxy:
     name: proxy

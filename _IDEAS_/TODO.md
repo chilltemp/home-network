@@ -9,9 +9,3 @@
 
 - Docker Image Update Notifier
   https://crazymax.dev/diun/
-
-- LibreNMS, a fully featured network monitoring system
-  https://github.com/librenms/docker?tab=readme-ov-file#syslog-ng-container
-
-- OpenObserve - central logs / monitoring
-  https://openobserve.ai/docs/getting-started/#option-2-self-hosted-installation

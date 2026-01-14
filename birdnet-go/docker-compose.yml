@@ -5,7 +5,7 @@ version: '3.8'
 
 services:
   birdnet-go:
-    image: ghcr.io/tphakala/birdnet-go:nightly20260113
+    image: ghcr.io/tphakala/birdnet-go:nightly-20260113
     container_name: birdnet-go
     restart: unless-stopped
     # ports:

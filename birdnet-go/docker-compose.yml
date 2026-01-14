@@ -5,11 +5,11 @@ version: '3.8'
 
 services:
   birdnet-go:
-    image: ghcr.io/tphakala/birdnet-go:nightly
+    image: ghcr.io/tphakala/birdnet-go:nightly20260113
     container_name: birdnet-go
     restart: unless-stopped
-    ports:
-      - "${WEB_PORT:-8080}:8080"
+    # ports:
+    #   - "${WEB_PORT:-8080}:8080"
     environment:
       - TZ=${TZ:-US/Eastern}
       - BIRDNET_UID=${BIRDNET_UID:-1000}
@@ -50,4 +50,16 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
  
- 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.birdnet-go.tls=true"
+      - "traefik.http.routers.birdnet-go.tls.certresolver=cloudflare"
+      - "traefik.http.routers.birdnet-go.entrypoints=websecure"
+      - "traefik.http.routers.birdnet-go.rule=Host(`${FQDN}`)"
+      - "traefik.http.services.birdnet-go.loadbalancer.server.port=8080"
+    networks:
+      - proxy 
+
+networks:
+  proxy:
+    name: proxy

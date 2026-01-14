@@ -10,7 +10,8 @@ services:
     container_name: birdnet-pi
     # image: ghcr.io/alexbelgium/birdnet-pi-amd64:latest
     image: ghcr.io/alexbelgium/birdnet-pi-aarch64:latest
-    restart: unless-stopped
+    # restart: unless-stopped
+    restart: no
     privileged: true # Required for accessing audio devices
     # ports:
     #   - "8081:8081" # Used to access WebUI (only needed if not using Traefik)
@@ -49,16 +50,16 @@ services:
 
     networks:
       - proxy
-    labels:
-      - "traefik.enable=true"
-      # - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
-      # - "traefik.http.services.birdpi.loadbalancer.server.port=8081"
+    # labels:
+    #   - "traefik.enable=true"
+    #   # - "traefik.http.routers.birdpi.rule=Host(`${HOSTNAME}`)"
+    #   # - "traefik.http.services.birdpi.loadbalancer.server.port=8081"
 
-      - "traefik.http.routers.birdpi-fqdn.tls=true"
-      - "traefik.http.routers.birdpi-fqdn.tls.certresolver=cloudflare"
-      - "traefik.http.routers.birdpi-fqdn.entrypoints=websecure"
-      - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
-      - "traefik.http.services.birdpi-fqdn.loadbalancer.server.port=8081"
+    #   - "traefik.http.routers.birdpi-fqdn.tls=true"
+    #   - "traefik.http.routers.birdpi-fqdn.tls.certresolver=cloudflare"
+    #   - "traefik.http.routers.birdpi-fqdn.entrypoints=websecure"
+    #   - "traefik.http.routers.birdpi-fqdn.rule=Host(`${FQDN}`)"
+    #   - "traefik.http.services.birdpi-fqdn.loadbalancer.server.port=8081"
 
 networks:
   proxy:

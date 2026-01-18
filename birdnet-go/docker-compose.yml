@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.birdnet-go.tls=true"
       - "traefik.http.routers.birdnet-go.tls.certresolver=cloudflare"
       - "traefik.http.routers.birdnet-go.entrypoints=websecure"
-      - "traefik.http.routers.birdnet-go.rule=Host(`${FQDN}`)"
+      - "traefik.http.routers.birdnet-go.rule=Host(`${FQDN?:FQDN not set}`)"
       - "traefik.http.services.birdnet-go.loadbalancer.server.port=8080"
     networks:
       - proxy 

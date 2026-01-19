@@ -51,12 +51,20 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN:?DOMAIN not set}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN:?DOMAIN not set}"
       - "--entrypoints.websecure.http.tls.domains[1].main=${FQDN:?FQDN not set}"
       - "--entrypoints.websecure.http.tls.domains[1].sans=*.${FQDN:?FQDN not set}"
+
+      - "--entrypoints.dnsovertls.address=:853"
+      - "--entrypoints.dnsovertls.http.tls=true"
+      - "--entrypoints.dnsovertls.http.tls.domains[0].main=${DOMAIN:?DOMAIN not set}"
+      - "--entrypoints.dnsovertls.http.tls.domains[0].sans=*.${DOMAIN:?DOMAIN not set}"
+      - "--entrypoints.dnsovertls.http.tls.domains[1].main=${FQDN:?FQDN not set}"
+      - "--entrypoints.dnsovertls.http.tls.domains[1].sans=*.${FQDN:?FQDN not set}"
 
       # Attach the static configuration tls.yaml file that contains the tls configuration settings
       # - "--providers.file.filename=/network-config/sync/traefik/tls.yml"

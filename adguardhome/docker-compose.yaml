@@ -1,3 +1,18 @@
+# List physical network interfaces 
+#   sudo lshw -class network -short
+# 
+# MacMini 2018 with T2:
+# H/W path              Device           Class          Description
+# =================================================================
+# /0/100/1c/0                            network        BCM4364 802.11ac Wireless Network Adapter
+# /0/100/1c.1/0         enp4s0           network        NetXtreme BCM57766 Gigabit Ethernet PCIe
+# /6                    enx00e04cce6916  network        Ethernet interface
+
+# Assign secondary IP address to physical interface (example for eth0)
+#   (label is max 15 chars)
+#   sudo ip address add 192.168.1.8/24 dev eth0 label eth0:adguardhome
+#   sudo ip address add 192.168.1.8/24 dev enp4s0 label enp4s0:adguard
+
 version: '3.8'
 
 services:
@@ -5,13 +20,13 @@ services:
     image: adguard/adguardhome
     container_name: adguardhome
     ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 784:784/udp
-      - 853:853/tcp
-      # - 3000:3000/tcp
-      # - 80:80/tcp
-      # - 443:443/tcp
+      - ${IP:?IP not set}:53:53/tcp
+      - ${IP:?IP not set}:53:53/udp
+      - ${IP:?IP not set}:784:784/udp
+      - ${IP:?IP not set}:853:853/tcp
+      # - ${IP:?IP not set}:3000:3000/tcp
+      # - ${IP:?IP not set}:80:80/tcp
+      # - ${IP:?IP not set}:443:443/tcp
     volumes:
       - ${HOST_DATA_PATH:-/data/adguard}/work:/opt/adguardhome/work
       - ${HOST_DATA_PATH:-/data/adguard}/conf:/opt/adguardhome/conf

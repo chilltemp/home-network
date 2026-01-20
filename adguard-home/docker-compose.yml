@@ -43,7 +43,7 @@ services:
 
       - "traefik.http.routers.adguard-api.tls=true"
       - "traefik.http.routers.adguard-api.tls.certresolver=cloudflare"
-      - "traefik.http.routers.adguard-api.entrypoints=websecure"
+      - "traefik.http.routers.adguard-api.entrypoints=port3000"
       - "traefik.http.routers.adguard-api.rule=Host(`${FQDN:?FQDN not set}`)"
       - "traefik.http.services.adguard-api.loadbalancer.server.port=3000"
 

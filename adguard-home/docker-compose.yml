@@ -47,12 +47,12 @@ services:
       # - "traefik.http.routers.adguard-api.rule=Host(`${FQDN:?FQDN not set}`)"
       # - "traefik.http.services.adguard-api.loadbalancer.server.port=3000"
 
-      # - "traefik.tcp.routers.adguard-tls.rule=HostSNI(`${FQDN:?FQDN not set}`)" 
-      # - "traefik.tcp.routers.adguard-tls.tls=true"
-      # - "traefik.tcp.routers.adguard-tls.entrypoints=dnsovertls"
-      # - "traefik.tcp.routers.adguard-tls.tls.certresolver=cloudflare"
-      # - "traefik.tcp.routers.adguard-tls.service=adguard-tls"
-      # - "traefik.tcp.services.adguard-tls.loadbalancer.server.port=53"
+      - "traefik.tcp.routers.adguard-tls.rule=HostSNI(`${FQDN:?FQDN not set}`)" 
+      - "traefik.tcp.routers.adguard-tls.tls=true"
+      - "traefik.tcp.routers.adguard-tls.entrypoints=dnsovertls"
+      - "traefik.tcp.routers.adguard-tls.tls.certresolver=cloudflare"
+      - "traefik.tcp.routers.adguard-tls.service=adguard-tls"
+      - "traefik.tcp.services.adguard-tls.loadbalancer.server.port=53"
 
 networks:
   proxy:

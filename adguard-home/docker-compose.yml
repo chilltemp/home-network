@@ -34,12 +34,12 @@ services:
     networks:
       - proxy
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adguard-dashboard.tls=true"
-      - "traefik.http.routers.adguard-dashboard.tls.certresolver=cloudflare"
-      - "traefik.http.routers.adguard-dashboard.entrypoints=websecure"
-      - "traefik.http.routers.adguard-dashboard.rule=Host(`${FQDN:?FQDN not set}`)"
-      - "traefik.http.services.adguard-dashboard.loadbalancer.server.port=80"
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.adguard-dashboard.tls=true"
+      # - "traefik.http.routers.adguard-dashboard.tls.certresolver=cloudflare"
+      # - "traefik.http.routers.adguard-dashboard.entrypoints=websecure"
+      # - "traefik.http.routers.adguard-dashboard.rule=Host(`${FQDN:?FQDN not set}`)"
+      # - "traefik.http.services.adguard-dashboard.loadbalancer.server.port=80"
 
       - "traefik.http.routers.adguard-api.tls=true"
       - "traefik.http.routers.adguard-api.tls.certresolver=cloudflare"

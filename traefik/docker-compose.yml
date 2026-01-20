@@ -106,7 +106,7 @@ services:
 
       # Dashboard router
       - "traefik.http.routers.dashboard.rule=Host(`proxy.${HOSTNAME:?HOSTNAME not set}`)"
-      # - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.service=api@internal"
 
       - "traefik.http.routers.dashboard-home.rule=Host(`proxy.${FQDN:?FQDN not set}`)"

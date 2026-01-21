@@ -39,14 +39,8 @@ services:
       - "traefik.http.routers.adguard-dashboard.tls.certresolver=cloudflare"
       - "traefik.http.routers.adguard-dashboard.entrypoints=websecure"
       - "traefik.http.routers.adguard-dashboard.rule=Host(`${FQDN:?FQDN not set}`)"
-      - "traefik.http.services.adguard-dashboard.loadbalancer.server.port=80"
-      # - "traefik.http.services.adguard-dashboard.loadbalancer.server.port=3000"
-
-      - "traefik.http.routers.adguard-api.tls=true"
-      - "traefik.http.routers.adguard-api.tls.certresolver=cloudflare"
-      - "traefik.http.routers.adguard-api.entrypoints=port3000"
-      - "traefik.http.routers.adguard-api.rule=Host(`${FQDN:?FQDN not set}`)"
-      - "traefik.http.services.adguard-api.loadbalancer.server.port=3000"
+      # Set ADGUARD_PORT to 3000 for first time setup, then change to 80
+      - "traefik.http.services.adguard-dashboard.loadbalancer.server.port=${ADGUARD_PORT:-80}"
 
       - "traefik.tcp.routers.adguard-tls.rule=HostSNI(`${FQDN:?FQDN not set}`)" 
       - "traefik.tcp.routers.adguard-tls.tls=true"

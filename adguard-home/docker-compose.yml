@@ -8,10 +8,23 @@
 # /0/100/1c.1/0         enp4s0           network        NetXtreme BCM57766 Gigabit Ethernet PCIe
 # /6                    enx00e04cce6916  network        Ethernet interface
 
-# Assign secondary IP address to physical interface (example for eth0)
-#   (label is max 15 chars)
-#   sudo ip address add 192.168.1.8/24 dev eth0 label eth0:adguardhome
-#   sudo ip address add 192.168.1.8/24 dev enp4s0 label enp4s0:adguard
+# Assign secondary IP address to physical interface (normally eth0, but enp4s0 on MacMini)
+# > nano /etc/netplan/50-cloud-init.yaml (or other .yaml file in /etc/netplan/)
+# 
+# ```
+# network:
+#   version: 2
+#   renderer: networkd
+#   ethernets:
+#     enx00e04cce6916:
+#       dhcp4: true
+#     enp4s0:
+#       dhcp4: true # primary ip
+#       addresses:
+#         - 192.168.1.8/24 # secondary ip for Adguard Home
+# ```
+# > sudo netplan apply
+
 
 version: '3.8'
 

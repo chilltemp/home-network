@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "accesslog",
+    "adguardhome",
     "alexbelgium",
     "basicauth",
     "birdnet",
@@ -12,7 +13,9 @@
     "certresolver",
     "cpus",
     "dnschallenge",
+    "dnsovertls",
     "dpage",
+    "ethernets",
     "exposedbydefault",
     "fullchain",
     "getmeili",
@@ -23,6 +26,8 @@
     "MEILI",
     "meilisearch",
     "MQTT",
+    "netplan",
+    "networkd",
     "NEXTAUTH",
     "oldmac",
     "openobserve",
